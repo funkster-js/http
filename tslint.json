@@ -1,0 +1,21 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "curly": false,
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "true",
+        "singleline": "never"
+      }
+    ],
+    "indent": [
+      true,
+      "spaces"
+    ]
+  }
+}
