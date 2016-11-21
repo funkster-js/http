@@ -1,9 +1,10 @@
+import { Url } from "url";
 import { Pipe, Result, always, compose, never } from "funkster-core";
 import { IncomingMessage, ServerResponse } from "http";
 import * as pathToRegexp from "path-to-regexp";
 
 // tslint:disable-next-line:no-var-requires
-const parseUrl = require("parseurl");
+const parseurl = require("parseurl");
 // tslint:disable-next-line:no-var-requires
 const getRawBody = require("raw-body");
 
@@ -17,16 +18,21 @@ export interface HttpContext {
 export interface HttpPipe extends Pipe<HttpContext> { }
 export interface HttpResult extends Result<HttpContext> { };
 
+export interface HttpStatus {
+    code: number;
+    reason?: string;
+}
+
 export function request(handler: (req: HttpRequest) => HttpPipe): HttpPipe {
     return (ctx: HttpContext) => handler(ctx.req)(ctx);
 }
 
-export function url(handler: (url: string) => HttpPipe): HttpPipe {
-    return request(req => req.url ? handler(req.url) : never);
+export function parseUrl(handler: (urlObj: Url) => HttpPipe): HttpPipe {
+    return request(req => handler(parseurl(req)));
 }
 
 export function path(urlPath: string, handler: () => HttpPipe): HttpPipe {
-    return request(req => parseUrl(req).pathname === urlPath ? handler() : never);
+    return parseUrl(url => url.pathname === urlPath ? handler() : never);
 }
 
 export function pathScan<Params>(urlPath: string, paramHandler: (params: Params) => HttpPipe): HttpPipe {
@@ -35,8 +41,7 @@ export function pathScan<Params>(urlPath: string, paramHandler: (params: Params)
 
     const keyNames = keys.map(k => k.name);
 
-    return request(req => {
-        const urlObj = parseUrl(req);
+    return parseUrl(urlObj => {
         const matches = regex.exec(urlObj.pathname);
 
         const sanitizedMatches =
@@ -62,11 +67,15 @@ export function method(handler: (method: string) => HttpPipe): HttpPipe {
 }
 
 export function ifMethod(httpMethod: string, part: HttpPipe): HttpPipe {
-    return request(req => req.method === httpMethod ? part : never);
+    return method(verb => verb === httpMethod ? part : never);
 }
 
 export function httpVersion(handler: (version: string) => HttpPipe): HttpPipe {
     return request(req => handler(req.httpVersion));
+}
+
+export function ifHttpVersion(version: string, part: HttpPipe): HttpPipe {
+    return httpVersion(v => v === version ? part : never);
 }
 
 export function body(handler: (body?: Buffer) => HttpPipe): HttpPipe {
@@ -78,15 +87,15 @@ export function body(handler: (body?: Buffer) => HttpPipe): HttpPipe {
     };
 };
 
-export function header(name: string, handler: (value?: string) => HttpPipe): HttpPipe {
-    return request(req => {
-        const value = req.headers[name.toLowerCase()];
-        return handler(value);
-    });
-}
-
 export function headers(handler: (headers: any) => HttpPipe): HttpPipe {
     return request(req => handler(req.headers));
+}
+
+export function header(name: string, handler: (value?: string) => HttpPipe): HttpPipe {
+    return headers(hs => {
+        const value = hs[name.toLowerCase()];
+        return handler(value);
+    });
 }
 
 export function GET(part: HttpPipe): HttpPipe { return ifMethod("GET", part); }
@@ -102,6 +111,18 @@ export function OTHER(name: string, part: HttpPipe): HttpPipe { return ifMethod(
 
 export function response(handler: (res: HttpResponse) => HttpPipe): HttpPipe {
     return (ctx: HttpContext) => handler(ctx.res)(ctx);
+}
+
+export function statusCode(handler: (statusCode: number) => HttpPipe): HttpPipe {
+    return response(res => handler(res.statusCode));
+}
+
+export function statusMessage(handler: (statusMessage: string) => HttpPipe): HttpPipe {
+    return response(res => handler(res.statusMessage));
+}
+
+export function status(handler: (status: HttpStatus) => HttpPipe): HttpPipe {
+    return response(res => handler({ code: res.statusCode, reason: res.statusMessage }));
 }
 
 export function setHeader(key: string, value: string | string[]): HttpPipe {
@@ -127,29 +148,35 @@ export function addHeader(key: string, value: string | string[]): HttpPipe {
     });
 }
 
-export function respond(statusCode: number, body?: string | Buffer, encoding?: string): HttpPipe {
-    return (ctx: HttpContext) => {
-        ctx.res.writeHead(statusCode);
-
-        if (body) {
-            ctx.res.write(body, encoding);
-        }
-
-        return Promise.resolve(ctx);
-    };
+export function setStatus(statusCode: number, reason?: string): HttpPipe {
+    return response(res => {
+        res.writeHead(statusCode, reason);
+        return always;
+    });
 }
 
-export const Continue = respond(100);
-export const SwitchingProtocols = respond(101);
+export function writeBody(body: string | Buffer, encoding?: string): HttpPipe {
+    return response(res => {
+        res.write(body, encoding);
+        return always;
+    });
+}
+
+export function respond(statusCode: number, body?: string | Buffer, encoding?: string): HttpPipe {
+    return compose(setStatus(statusCode), body ? writeBody(body, encoding) : always);
+}
+
+export const Continue = setStatus(100);
+export const SwitchingProtocols = setStatus(101);
 
 export const Ok = (result: string | Buffer, encoding?: string) => respond(200, result, encoding);
 export const Created = (result: string | Buffer, encoding?: string) => respond(201, result, encoding);
 export const Accepted = (result: string | Buffer, encoding?: string) => respond(202, result, encoding);
-export const NoContent = respond(204);
+export const NoContent = setStatus(204);
 
-export const MovedPermanently = (location: string) => compose(setHeader("Location", location), respond(301));
-export const Found = (location: string) => compose(setHeader("Location", location), respond(302));
-export const NotModified = respond(304);
+export const MovedPermanently = (location: string) => compose(setHeader("Location", location), setStatus(301));
+export const Found = (location: string) => compose(setHeader("Location", location), setStatus(302));
+export const NotModified = setStatus(304);
 
 export const BadRequest = (result: string | Buffer, encoding?: string) => respond(400, result, encoding);
 export const Unauthorized = (challenge: string | string[], result: string | Buffer, encoding?: string) =>
@@ -159,7 +186,7 @@ export const Forbidden = (result: string | Buffer, encoding?: string) => respond
 export const NotFound = (result: string | Buffer, encoding?: string) => respond(404, result, encoding);
 export const MethodNotAllowed = (result: string | Buffer, encoding?: string) => respond(405, result, encoding);
 export const NotAcceptable = (result: string | Buffer, encoding?: string) => respond(406, result, encoding);
-export const RequestTimeout = respond(408);
+export const RequestTimeout = setStatus(408);
 export const Conflict = (result: string | Buffer, encoding?: string) => respond(409, result, encoding);
 export const Gone = (result: string | Buffer, encoding?: string) => respond(410, result, encoding);
 export const UnsupportedMediaType = (result: string | Buffer, encoding?: string) => respond(415, result, encoding);
