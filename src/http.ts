@@ -156,9 +156,14 @@ export function addHeader(key: string, value: string | string[]): HttpPipe {
     });
 }
 
-export function setStatus(statusCode: number, reason?: string): HttpPipe {
+export function setStatus(statusOrstatusCode: HttpStatus | number, reason?: string): HttpPipe {
     return response(res => {
-        res.writeHead(statusCode, reason);
+        if (typeof statusOrstatusCode === "number") {
+            res.writeHead(statusOrstatusCode, reason);
+        } else {
+            res.writeHead(statusOrstatusCode.code, statusOrstatusCode.reason || reason);
+        }
+
         return always;
     });
 }
