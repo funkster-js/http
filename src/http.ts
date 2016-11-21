@@ -1,3 +1,4 @@
+import * as querystring from "querystring";
 import { Url } from "url";
 import { Pipe, Result, always, compose, never } from "funkster-core";
 import { IncomingMessage, ServerResponse } from "http";
@@ -27,17 +28,13 @@ export function request(handler: (req: HttpRequest) => HttpPipe): HttpPipe {
     return (ctx: HttpContext) => handler(ctx.req)(ctx);
 }
 
-export function parseUrl(handler: (urlObj: Url) => HttpPipe): HttpPipe {
+export function parseUrl(handler: (url: Url) => HttpPipe): HttpPipe {
     return request(req => handler(parseurl(req)));
 }
 
-export function path(urlPath: string, handler: () => HttpPipe): HttpPipe {
-    return parseUrl(url => url.pathname === urlPath ? handler() : never);
-}
-
-export function pathScan<Params>(urlPath: string, paramHandler: (params: Params) => HttpPipe): HttpPipe {
+export function parsePath<Params>(path: string, paramHandler: (params: Params) => HttpPipe): HttpPipe {
     const keys: pathToRegexp.Key[] = [];
-    const regex = pathToRegexp(urlPath, keys);
+    const regex = pathToRegexp(path, keys);
 
     const keyNames = keys.map(k => k.name);
 
@@ -62,6 +59,10 @@ export function pathScan<Params>(urlPath: string, paramHandler: (params: Params)
     });
 };
 
+export function ifPath(urlPath: string, handler: () => HttpPipe): HttpPipe {
+    return parseUrl(url => url.pathname === urlPath ? handler() : never);
+}
+
 export function method(handler: (method: string) => HttpPipe): HttpPipe {
     return request(req => handler(req.method));
 }
@@ -76,6 +77,13 @@ export function httpVersion(handler: (version: string) => HttpPipe): HttpPipe {
 
 export function ifHttpVersion(version: string, part: HttpPipe): HttpPipe {
     return httpVersion(v => v === version ? part : never);
+}
+
+export function parseQuery<Query>(handler: (query: Query) => HttpPipe): HttpPipe {
+    return parseUrl(url => {
+        const parsedQuery = querystring.parse(url.query);
+        return handler(parsedQuery);
+    });
 }
 
 export function body(handler: (body?: Buffer) => HttpPipe): HttpPipe {

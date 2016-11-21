@@ -1,9 +1,8 @@
-import { asRequestListener } from "../src";
-import { Ok, pathScan } from "../src/http";
-
 import * as request from "supertest";
-import * as assert from "assert";
 import "mocha";
+
+import { asRequestListener } from "../src";
+import { Ok, parsePath } from "../src/http";
 
 describe("When using pathScan", () => {
     describe("on a url path with placeholders", () => {
@@ -12,7 +11,7 @@ describe("When using pathScan", () => {
             bar: string;
         }
 
-        const pipe = pathScan<Params>("/route/:foo/some/:bar", params => Ok(JSON.stringify(params)));
+        const pipe = parsePath<Params>("/route/:foo/some/:bar", params => Ok(JSON.stringify(params)));
 
         it("should parse the placeholder values correctly.", done => {
             request(asRequestListener(pipe))
