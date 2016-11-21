@@ -1,3 +1,4 @@
 {
-    "typescript.tsdk": "./node_modules/typescript/lib"
+	"npm-intellisense.scanDevDependencies": true,
+	"typescript.tsdk": "./node_modules/typescript/lib"
 }
