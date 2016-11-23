@@ -29,7 +29,7 @@ async function run(req: IncomingMessage, res: ServerResponse, part: HttpPipe): R
 
 export function asRequestListener(part: HttpPipe): NodeListener {
   return async (req: IncomingMessage, res: ServerResponse) => {
-    const done = finalhandler(<ServerRequest> req, res);
+    const done = finalhandler(<ServerRequest>req, res);
     try {
       const result = await run(req, res, part);
       if (result) {
@@ -43,15 +43,39 @@ export function asRequestListener(part: HttpPipe): NodeListener {
   };
 }
 
+export function fromRequestListener(listener: NodeListener): HttpPipe {
+  return (ctx: HttpContext) => new Promise<HttpContext>((resolve, reject) => {
+    try {
+      listener(ctx.req, ctx.res);
+      resolve(ctx);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
 export function asConnectMiddleware(part: HttpPipe): ConnectMiddleware {
   return async (req: ServerRequest, res: ServerResponse, next: ConnectNext) => {
     try {
       const result = await run(req, res, part);
       if (!result) {
-          next();
+        next();
       }
     } catch (error) {
       next(error);
     }
   };
+}
+
+export function fromConnectMiddleware(middleWare: ConnectMiddleware): HttpPipe {
+  return async (ctx: HttpContext) => new Promise<HttpContext>((resolve, reject) => {
+    try {
+      middleWare(ctx.req, ctx.res, (err?: Error) => {
+        if (err) return reject(err);
+        return resolve(ctx);
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
 }
