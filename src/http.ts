@@ -1,8 +1,8 @@
-import * as querystring from "querystring";
-import { Url } from "url";
-import { Pipe, Result, always, compose, never } from "funkster-core";
+import { always, compose, never, Pipe, Result } from "funkster-core";
 import { IncomingMessage, ServerResponse } from "http";
 import * as pathToRegexp from "path-to-regexp";
+import * as querystring from "querystring";
+import { Url } from "url";
 
 // tslint:disable-next-line:no-var-requires
 const parseurl = require("parseurl");
