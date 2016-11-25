@@ -1,11 +1,12 @@
 {
-  "extends": "tslint:recommended",
+  "extends": "tslint:latest",
   "rules": {
     "curly": false,
     "interface-name": [
       true,
       "never-prefix"
     ],
+    "arrow-parens": false,
     "trailing-comma": [
       true,
       {
