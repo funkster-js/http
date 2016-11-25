@@ -63,6 +63,13 @@ export function parsePath<Params>(path: string, paramHandler: (params: Params) =
   });
 };
 
+export function parseQuery<Query>(handler: (query: Query) => HttpPipe): HttpPipe {
+  return parseUrl(url => {
+    const parsedQuery = querystring.parse(url.query);
+    return handler(parsedQuery);
+  });
+}
+
 export function ifPath(urlPath: string, handler: () => HttpPipe): HttpPipe {
   return parseUrl(url => url.pathname === urlPath ? handler() : never);
 }
@@ -83,14 +90,7 @@ export function ifHttpVersion(version: string, part: HttpPipe): HttpPipe {
   return httpVersion(v => v === version ? part : never);
 }
 
-export function parseQuery<Query>(handler: (query: Query) => HttpPipe): HttpPipe {
-  return parseUrl(url => {
-    const parsedQuery = querystring.parse(url.query);
-    return handler(parsedQuery);
-  });
-}
-
-export function body(handler: (body?: Buffer) => HttpPipe): HttpPipe {
+export function body(handler: (body: Buffer) => HttpPipe): HttpPipe {
   return async (ctx: HttpContext) => {
     const buffer = await getRawBody(ctx.req);
     const part = handler(buffer);
