@@ -16,9 +16,21 @@
   version "6.0.51"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.51.tgz#84cbf25111516ec9304d0b61469dc0fa9d12ba32"
 
+"@types/parseurl@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@types/parseurl/-/parseurl-1.3.0.tgz#639f1e9e9883ea2763d1c200d81e59dca7c898bf"
+  dependencies:
+    "@types/node" "*"
+
 "@types/path-to-regexp@^1.0.29":
   version "1.0.29"
   resolved "https://registry.yarnpkg.com/@types/path-to-regexp/-/path-to-regexp-1.0.29.tgz#61428c3738cd1dcee1571316dd7d02d13aac6e62"
+
+"@types/raw-body@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@types/raw-body/-/raw-body-2.1.0.tgz#6d54952c4607b1e734bcd53ddd2d6ecb0534878d"
+  dependencies:
+    "@types/node" "*"
 
 "@types/superagent@*":
   version "2.0.36"
@@ -26,9 +38,9 @@
   dependencies:
     "@types/node" "*"
 
-"@types/supertest@^1.1.31":
-  version "1.1.32"
-  resolved "https://registry.yarnpkg.com/@types/supertest/-/supertest-1.1.32.tgz#10146f2a1034b480cbe0c17bf070f71814bb5251"
+"@types/supertest@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/supertest/-/supertest-2.0.0.tgz#4687deaff4950b63e4611536d6fd44665ee11bb7"
   dependencies:
     "@types/superagent" "*"
 
@@ -266,10 +278,10 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
 
 funkster-core@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/funkster-core/-/funkster-core-0.6.0.tgz#a4273fd7f37fdd44f896974c1a6dbba626aa2d5b"
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/funkster-core/-/funkster-core-0.6.1.tgz#d62c26d032286e005ec311ed06d04bfdb3c6c2bb"
 
-glob@7.0.5:
+glob@7.0.5, glob@^7.0.5:
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.0.5.tgz#b4202a69099bbb4d292a7c1b95b6682b67ebdc95"
   dependencies:
@@ -280,7 +292,7 @@ glob@7.0.5:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.0.5, glob@^7.1.1:
+glob@^7.1.1:
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.1.tgz#805211df04faaf1c63a3600306cdf5ade50b2ec8"
   dependencies:
@@ -507,17 +519,13 @@ mime@^1.3.4:
   dependencies:
     brace-expansion "^1.0.0"
 
-minimist@0.0.8:
+minimist@0.0.8, minimist@~0.0.1:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
 minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
-
-minimist@~0.0.1:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
 mkdirp@0.5.1, mkdirp@^0.5.0, mkdirp@^0.5.1:
   version "0.5.1"

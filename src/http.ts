@@ -1,13 +1,10 @@
 import { always, compose, never, Pipe, Result } from "funkster-core";
 import { IncomingMessage, ServerResponse } from "http";
+import * as parseurl from "parseurl";
 import * as pathToRegexp from "path-to-regexp";
 import * as querystring from "querystring";
+import * as getRawBody from "raw-body";
 import { Url } from "url";
-
-// tslint:disable-next-line:no-var-requires
-const parseurl = require("parseurl");
-// tslint:disable-next-line:no-var-requires
-const getRawBody = require("raw-body");
 
 export type HttpRequest = IncomingMessage;
 export type HttpResponse = ServerResponse;
