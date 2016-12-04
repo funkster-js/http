@@ -87,9 +87,15 @@ export function ifHttpVersion(version: string, part: HttpPipe): HttpPipe {
   return httpVersion(v => v === version ? part : never);
 }
 
+async function getRawBodyAsBuffer(req: IncomingMessage) {
+  const body = await getRawBody(req);
+
+  return typeof body === "string" ? new Buffer(body) : body;
+}
+
 export function body(handler: (body: Buffer) => HttpPipe): HttpPipe {
   return async (ctx: HttpContext) => {
-    const buffer = await getRawBody(ctx.req);
+    const buffer = await getRawBodyAsBuffer(ctx.req);
     const part = handler(buffer);
 
     return part(ctx);
