@@ -186,37 +186,55 @@ export function respond(statusCode: number, body?: string | Buffer, encoding?: s
   return compose(setStatus(statusCode), body ? writeBody(body, encoding) : always);
 }
 
-export const Continue = setStatus(100);
-export const SwitchingProtocols = setStatus(101);
+export const Continue: HttpPipe = setStatus(100);
+export const SwitchingProtocols: HttpPipe = setStatus(101);
 
-export const Ok = (result?: string | Buffer, encoding?: string) => respond(200, result, encoding);
-export const Created = (result?: string | Buffer, encoding?: string) => respond(201, result, encoding);
-export const Accepted = (result?: string | Buffer, encoding?: string) => respond(202, result, encoding);
-export const NoContent = setStatus(204);
+export const Ok = (result?: string | Buffer, encoding?: string): HttpPipe => respond(200, result, encoding);
+export const Created = (result?: string | Buffer, encoding?: string): HttpPipe => respond(201, result, encoding);
+export const Accepted = (result?: string | Buffer, encoding?: string): HttpPipe => respond(202, result, encoding);
+export const NoContent: HttpPipe = setStatus(204);
 
-export const MovedPermanently = (location: string) => compose(setHeader("Location", location), setStatus(301));
-export const Found = (location: string) => compose(setHeader("Location", location), setStatus(302));
-export const NotModified = setStatus(304);
+export const MovedPermanently = (location: string): HttpPipe =>
+  compose(setHeader("Location", location), setStatus(301));
 
-export const BadRequest = (result?: string | Buffer, encoding?: string) => respond(400, result, encoding);
-export const Unauthorized = (challenge: string | string[], result?: string | Buffer, encoding?: string) =>
+export const Found = (location: string): HttpPipe => compose(setHeader("Location", location), setStatus(302));
+export const NotModified: HttpPipe = setStatus(304);
+
+export const BadRequest = (result?: string | Buffer, encoding?: string): HttpPipe => respond(400, result, encoding);
+export const Unauthorized = (challenge: string | string[], result?: string | Buffer, encoding?: string): HttpPipe =>
   compose(setHeader("WWW-Authenticate", challenge), respond(401, result, encoding));
 
-export const Forbidden = (result?: string | Buffer, encoding?: string) => respond(403, result, encoding);
-export const NotFound = (result?: string | Buffer, encoding?: string) => respond(404, result, encoding);
-export const MethodNotAllowed = (result?: string | Buffer, encoding?: string) => respond(405, result, encoding);
-export const NotAcceptable = (result?: string | Buffer, encoding?: string) => respond(406, result, encoding);
-export const RequestTimeout = setStatus(408);
-export const Conflict = (result?: string | Buffer, encoding?: string) => respond(409, result, encoding);
-export const Gone = (result?: string | Buffer, encoding?: string) => respond(410, result, encoding);
-export const UnsupportedMediaType = (result?: string | Buffer, encoding?: string) => respond(415, result, encoding);
-export const UnprocessableEntity = (result?: string | Buffer, encoding?: string) => respond(422, result, encoding);
-export const PreconditionRequired = (result?: string | Buffer, encoding?: string) => respond(428, result, encoding);
-export const TooManyRequests = (result?: string | Buffer, encoding?: string) => respond(429, result, encoding);
+export const Forbidden = (result?: string | Buffer, encoding?: string): HttpPipe => respond(403, result, encoding);
+export const NotFound = (result?: string | Buffer, encoding?: string): HttpPipe => respond(404, result, encoding);
+export const MethodNotAllowed = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(405, result, encoding);
+export const NotAcceptable = (result?: string | Buffer, encoding?: string): HttpPipe => respond(406, result, encoding);
+export const RequestTimeout: HttpPipe = setStatus(408);
+export const Conflict = (result?: string | Buffer, encoding?: string): HttpPipe => respond(409, result, encoding);
+export const Gone = (result?: string | Buffer, encoding?: string): HttpPipe => respond(410, result, encoding);
+export const UnsupportedMediaType = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(415, result, encoding);
+export const UnprocessableEntity = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(422, result, encoding);
+export const PreconditionRequired = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(428, result, encoding);
+export const TooManyRequests = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(429, result, encoding);
 
-export const InternalServerError = (result?: string | Buffer, encoding?: string) => respond(500, result, encoding);
-export const NotImplemented = (result?: string | Buffer, encoding?: string) => respond(501, result, encoding);
-export const BadGateway = (result?: string | Buffer, encoding?: string) => respond(502, result, encoding);
-export const ServiceUnavailable = (result?: string | Buffer, encoding?: string) => respond(503, result, encoding);
-export const GatewayTimeout = (result?: string | Buffer, encoding?: string) => respond(504, result, encoding);
-export const InvalidHttpVersion = (result?: string | Buffer, encoding?: string) => respond(505, result, encoding);
+export const InternalServerError = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(500, result, encoding);
+
+export const NotImplemented = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(501, result, encoding);
+
+export const BadGateway = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(502, result, encoding);
+
+export const ServiceUnavailable = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(503, result, encoding);
+
+export const GatewayTimeout = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(504, result, encoding);
+
+export const InvalidHttpVersion = (result?: string | Buffer, encoding?: string): HttpPipe =>
+  respond(505, result, encoding);
