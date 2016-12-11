@@ -9,7 +9,7 @@
 
 ![Icon](./icon.png)
 
-Funkster is a compositional server. This package contains the basic combinators to write HTTP(S) servers.
+Funkster is a compositional server library. This package contains the basic combinators to write HTTP(S) servers.
 It allows to describe your api in a declarative, functional manner and compose it by using the existing combinators to write higher level ones.
 
 > [Typscript](http://www.typescriptlang.org/) is used to illustrate the examples.
