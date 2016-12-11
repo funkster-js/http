@@ -12,6 +12,8 @@
 Funkster is a compositional server library. This package contains the basic combinators to write HTTP(S) servers.
 It allows to describe your api in a declarative, functional manner and compose it by using the existing combinators to write higher level ones.
 
+There exists a repository with examples of how to build HTTP server apis with funkster [here](https://github.com/Bomret/funkster-http-examples).
+
 > [Typscript](http://www.typescriptlang.org/) is used to illustrate the examples.
 
 ## Install
