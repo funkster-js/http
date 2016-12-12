@@ -1,6 +1,6 @@
 {
   "name": "funkster-http",
-  "version": "0.6.1",
+  "version": "0.6.0",
   "description": "Funkster is a compositional server library. This package contains the basic http types and combinators.",
   "homepage": "https://github.com/Bomret/funkster-http",
   "license": "Unlicense",

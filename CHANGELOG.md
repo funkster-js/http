@@ -6,10 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.1] - 2016-12-12
+### Changed
+- Upgraded `funkster-core` dependency.
+
 ## [0.6.0] - 2016-12-04
 ### Changed
 - Now requires node >= 4.6.1.
-- Ditched dep on `es6-promise`
+- Ditched dep on `es6-promise`.
 
 ## [0.5.1] - 2016-11-25
 ### Added
