@@ -1,4 +1,4 @@
-import { always, compose, never, Pipe, Result } from "funkster-core";
+import { always, compose, never, Option, Pipe } from "funkster-core";
 import { IncomingMessage, ServerResponse } from "http";
 import * as parseurl from "parseurl";
 import * as pathToRegexp from "path-to-regexp";
@@ -14,7 +14,7 @@ export interface HttpContext {
 };
 
 export interface HttpPipe extends Pipe<HttpContext> { }
-export interface HttpResult extends Result<HttpContext> { };
+export interface HttpResult extends Promise<Option<HttpContext>> { };
 
 export interface HttpStatus {
   code: number;
