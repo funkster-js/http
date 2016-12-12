@@ -858,9 +858,9 @@ tslint@4.0.2:
     underscore.string "^3.3.4"
     update-notifier "^1.0.2"
 
-typescript@^2.0.10:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.1.1.tgz#41c2b64472f529331b2055c0424862b44ce58d42"
+typescript@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.1.4.tgz#b53b69fb841126acb1dd4b397d21daba87572251"
 
 underscore.string@^3.3.4:
   version "3.3.4"
