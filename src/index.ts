@@ -1,6 +1,6 @@
 import * as finalhandler from "finalhandler";
 import { Option } from "funkster-core";
-import { IncomingMessage, ServerRequest, ServerResponse } from "http";
+import { IncomingMessage, ServerResponse } from "http";
 
 import { HttpContext, HttpPipe } from "./http";
 
@@ -29,7 +29,7 @@ async function run(req: IncomingMessage, res: ServerResponse, part: HttpPipe): P
 
 export function asRequestListener(part: HttpPipe): NodeListener {
   return async (req: IncomingMessage, res: ServerResponse) => {
-    const done = finalhandler(<ServerRequest> req, res);
+    const done = finalhandler(<any>req, res);
     try {
       const result = await run(req, res, part);
       if (result) {
@@ -55,7 +55,7 @@ export function fromRequestListener(listener: NodeListener): HttpPipe {
 }
 
 export function asConnectMiddleware(part: HttpPipe): ConnectMiddleware {
-  return async (req: ServerRequest, res: ServerResponse, next: ConnectNext) => {
+  return async (req: IncomingMessage, res: ServerResponse, next: ConnectNext) => {
     try {
       const result = await run(req, res, part);
       if (!result) {
