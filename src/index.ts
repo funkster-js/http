@@ -29,7 +29,7 @@ async function run(req: IncomingMessage, res: ServerResponse, part: HttpPipe): P
 
 export function asRequestListener(part: HttpPipe): NodeListener {
   return async (req: IncomingMessage, res: ServerResponse) => {
-    const done = finalhandler(<any>req, res);
+    const done = finalhandler(<any> req, res);
     try {
       const result = await run(req, res, part);
       if (result) {
