@@ -1,4 +1,4 @@
-import { always, compose, never, Option, Pipe } from "funkster-core";
+import { always, compose, never, Pipe } from "funkster-core";
 import { IncomingMessage, ServerResponse } from "http";
 import * as parseurl from "parseurl";
 import * as pathToRegexp from "path-to-regexp";
