@@ -1,81 +1,81 @@
-import * as finalhandler from "finalhandler";
-import { Option } from "funkster-core";
-import { IncomingMessage, ServerResponse } from "http";
+import * as finalhandler from 'finalhandler'
+import { Option } from 'funkster-core'
+import { IncomingMessage, ServerResponse } from 'http'
 
-import { HttpContext, HttpPipe } from "./http";
+import { HttpContext, HttpPipe } from './http'
 
-export * from "./http";
+export * from './http';
 
 export interface NodeListener {
-  (req: IncomingMessage, res: ServerResponse): void;
+  (req: IncomingMessage, res: ServerResponse): void
 }
 
 export interface ConnectNext {
-  (err?: Error): void;
+  (err?: Error): void
 }
 
 export interface ConnectMiddleware {
-  (req: IncomingMessage, res: ServerResponse, next: ConnectNext): void;
+  (req: IncomingMessage, res: ServerResponse, next: ConnectNext): void
 }
 
 export function createHttpContext(req: IncomingMessage, res: ServerResponse): HttpContext {
-  return { req, res };
+  return { req, res }
 }
 
 async function run(req: IncomingMessage, res: ServerResponse, part: HttpPipe): Promise<Option<HttpContext>> {
-  const ctx = createHttpContext(req, res);
-  return part(ctx);
+  const ctx = createHttpContext(req, res)
+  return part(ctx)
 }
 
 export function asRequestListener(part: HttpPipe): NodeListener {
   return async (req: IncomingMessage, res: ServerResponse) => {
-    const done = finalhandler(<any> req, res);
+    const done = finalhandler(<any> req, res)
     try {
-      const result = await run(req, res, part);
+      const result = await run(req, res, part)
       if (result) {
-        res.end();
+        res.end()
       } else {
-        done(null);
+        done(null)
       }
     } catch (error) {
-      done(error);
+      done(error)
     }
-  };
+  }
 }
 
 export function fromRequestListener(listener: NodeListener): HttpPipe {
   return (ctx: HttpContext) => new Promise<HttpContext>((resolve, reject) => {
     try {
-      listener(ctx.req, ctx.res);
-      resolve(ctx);
+      listener(ctx.req, ctx.res)
+      resolve(ctx)
     } catch (err) {
-      reject(err);
+      reject(err)
     }
-  });
+  })
 }
 
 export function asConnectMiddleware(part: HttpPipe): ConnectMiddleware {
   return async (req: IncomingMessage, res: ServerResponse, next: ConnectNext) => {
     try {
-      const result = await run(req, res, part);
+      const result = await run(req, res, part)
       if (!result) {
-        next();
+        next()
       }
     } catch (error) {
-      next(error);
+      next(error)
     }
-  };
+  }
 }
 
 export function fromConnectMiddleware(middleWare: ConnectMiddleware): HttpPipe {
   return async (ctx: HttpContext) => new Promise<HttpContext>((resolve, reject) => {
     try {
       middleWare(ctx.req, ctx.res, (err?: Error) => {
-        if (err) return reject(err);
-        return resolve(ctx);
-      });
+        if (err) return reject(err)
+        return resolve(ctx)
+      })
     } catch (err) {
-      reject(err);
+      reject(err)
     }
-  });
+  })
 }

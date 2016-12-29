@@ -8,7 +8,6 @@
     "declaration": true,
     "preserveConstEnums": true,
     "removeComments": true,
-    "sourceMap": true,
     "outDir": "lib"
   },
   "files": [
