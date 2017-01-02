@@ -3,8 +3,6 @@
 [![npm](https://img.shields.io/npm/v/funkster-http.svg?style=flat-square)](https://www.npmjs.com/package/funkster-http)
 [![node](https://img.shields.io/node/v/funkster-http.svg?style=flat-square)](http://nodejs.org/download/)
 [![npm](https://img.shields.io/npm/dt/funkster-http.svg?style=flat-square)](https://www.npmjs.com/package/funkster-http)
-[![Known Vulnerabilities](https://snyk.io/test/github/bomret/funkster-http/badge.svg?style=flat-square)](https://snyk.io/test/github/bomret/funkster-http)
-[![bitHound](https://img.shields.io/bithound/code/github/Bomret/funkster-http.svg?style=flat-square)](https://www.bithound.io/github/Bomret/funkster-http)
 [![Travis](https://img.shields.io/travis/Bomret/funkster-http.svg?style=flat-square)](https://travis-ci.org/Bomret/funkster-http)
 
 ![Icon](./icon.png)
