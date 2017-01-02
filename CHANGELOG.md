@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.3] - 2016-01-01
+### Changed
+- Upgraded all dependencies.
+
 ## [0.6.2] - 2016-12-14
 ### Changed
 - Upgraded all dependencies.
