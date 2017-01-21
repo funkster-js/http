@@ -48,12 +48,12 @@ gulp.task('test', 'Runs the tests', ['pre-test'], () =>
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
 )
 
-gulp.task('prepare', 'Prepares a release by copying all relevant files to the lib dir', ['test'], () =>
-  gulp.src(['package.json', 'LICENSE', 'README.md', 'yarn.lock'])
+gulp.task('pre-package', 'Prepares a release by copying all relevant files to the lib dir', ['test'], () =>
+  gulp.src(['package.json', 'LICENSE', 'yarn.lock'])
     .pipe(gulp.dest('lib'))
 )
 
-gulp.task('package', 'Creates a tarball from the prepared lib dir in the dist dir', ['prepare'], () =>
+gulp.task('package', 'Creates a tarball from the prepared lib dir in the dist dir', ['pre-package'], () =>
   gulp.src(['lib'])
     .pipe(tar('funkster-core.tar'))
     .pipe(gzip())
