@@ -49,7 +49,7 @@ gulp.task('test', 'Runs the tests', ['pre-test'], () =>
 )
 
 gulp.task('prepare', 'Prepares a release by copying all relevant files to the lib dir', ['test'], () =>
-  gulp.src(['CHANGELOG.md', 'package.json', 'LICENSE', 'README.md', 'yarn.lock'])
+  gulp.src(['package.json', 'LICENSE', 'README.md', 'yarn.lock'])
     .pipe(gulp.dest('lib'))
 )
 
