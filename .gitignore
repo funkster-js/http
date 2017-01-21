@@ -51,7 +51,7 @@ jspm_packages
 .yarn-integrity
 
 lib
-
+dist
 
 ### macOS ###
 *.DS_Store
