@@ -55,7 +55,7 @@ gulp.task('pre-package', 'Prepares a release by copying all relevant files to th
 
 gulp.task('package', 'Creates a tarball from the prepared lib dir in the dist dir', ['pre-package'], () =>
   gulp.src(['lib'])
-    .pipe(tar('funkster-core.tar'))
+    .pipe(tar('package.tar'))
     .pipe(gzip())
     .pipe(gulp.dest('dist'))
 )
