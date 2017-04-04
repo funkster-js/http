@@ -18,7 +18,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "prepush": "npm run test",
+    "prepush": "npm test",
     "build": "gulp build",
     "test": "gulp test",
     "release": "gulp package && npm publish dist/package.tar.gz",

@@ -1,11 +1,11 @@
 # funkster-http
 
-[![npm](https://img.shields.io/npm/v/funkster-http.svg?style=flat-square)](https://www.npmjs.com/package/funkster-http)
-[![node](https://img.shields.io/node/v/funkster-http.svg?style=flat-square)](http://nodejs.org/download/)
-[![npm](https://img.shields.io/npm/dt/funkster-http.svg?style=flat-square)](https://www.npmjs.com/package/funkster-http)
-[![Travis](https://img.shields.io/travis/Bomret/funkster-http.svg?style=flat-square)](https://travis-ci.org/Bomret/funkster-http)
+[![npm](https://img.shields.io/npm/v/@funkster/http.svg?style=flat-square)](https://www.npmjs.com/package/@funkster/http)
+[![node](https://img.shields.io/node/v/@funkster/http.svg?style=flat-square)](http://nodejs.org/download/)
+[![npm](https://img.shields.io/npm/dt/@funkster/http.svg?style=flat-square)](https://www.npmjs.com/package/@funkster/http)
+[![Travis](https://img.shields.io/travis/Bomret/@funkster/http.svg?style=flat-square)](https://travis-ci.org/funkster-js/http)
 
-![Icon](./icon.png)
+![Icon](https://avatars0.githubusercontent.com/u/26775967)
 
 Funkster is a compositional server library. This package contains the basic combinators to write HTTP(S) servers.
 It allows to describe your api in a declarative, functional manner and compose it by using the existing combinators to write higher level ones.
@@ -16,7 +16,7 @@ There exists a repository with examples of how to build HTTP server apis with fu
 
 ## Install
 ```bash
-$ npm install funkster-http
+$ npm install @funkster/http
 ```
 
 ## Build
@@ -38,7 +38,7 @@ The following example demonstrates a basic echo server which just responds with 
 
 ```javascript
 import * as http from 'http';
-import { asRequestListener, body, Ok, POST } from 'funkster-http';
+import { asRequestListener, body, Ok, POST } from '@funkster/http';
 
 const echo = POST(body(buffer => Ok(String(buffer)))); 
 const server = http.createServer(asRequestListener(greet));
@@ -51,8 +51,8 @@ The following example demonstrates basic routing and using different HTTP Verbs.
 
 ```javascript
 import * as http from 'http';
-import { choose } from 'funkster-core';
-import { asRequestListener, body, GET, ifPath, Ok, parsePath, POST } from 'funkster-http';
+import { choose } from '@funkster/core';
+import { asRequestListener, body, GET, ifPath, Ok, parsePath, POST } from '@funkster/http';
 
 interface Greeting {
   name: string;
