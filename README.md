@@ -1,5 +1,7 @@
 # funkster-http
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/funkster-js/http.svg)](https://greenkeeper.io/)
+
 [![npm](https://img.shields.io/npm/v/funkster-http.svg?style=flat-square)](https://www.npmjs.com/package/funkster-http)
 [![node](https://img.shields.io/node/v/funkster-http.svg?style=flat-square)](http://nodejs.org/download/)
 [![npm](https://img.shields.io/npm/dt/funkster-http.svg?style=flat-square)](https://www.npmjs.com/package/funkster-http)
